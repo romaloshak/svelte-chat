@@ -1,5 +1,7 @@
 <script lang="ts">
-  let value = $state('');
-</script>
+    import InputMessage from "./InputMessage.svelte";
+    import Dialog from "./Dialog.svelte";
 
-<input bind:value />
+</script>
+<Dialog/>
+<InputMessage/>

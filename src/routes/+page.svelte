@@ -1,2 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+    import ChatWrapper from "../components/ChatWrapper.svelte";
+    import {onMount} from "svelte";
+    import {initSocket} from "../utils/socketStore.svelte.ts";
+
+    onMount(() => {
+      const socket = initSocket();
+      return () => socket.close(); // Cleanup on app destroy
+    });
+
+</script>
+
+<ChatWrapper/>
