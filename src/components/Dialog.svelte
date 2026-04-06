@@ -1,33 +1,36 @@
 <script>
     import {socketState} from "../utils/socketStore.svelte.ts";
 
-    let chat = $derived(socketState.chat)
+    $inspect(socketState)
 </script>
 
-<div class="dialog">
-        {#if chat.length}
-            {#each chat as data}
-                <div class="message">
-                    <span>{JSON.parse(data.message).text}</span>
+    <div class="messages">
+        {#each socketState.messages as msg}
+            <div class="message-wrapper {msg.sender === socketState.tabName ? 'me' : 'them'}">
+                <div class="bubble">
+                    <span class="sender">{msg.sender}</span>
+                    <p>{msg.message}</p>
                 </div>
-            {/each}
-        {/if}
-</div>
+            </div>
+        {/each}
+    </div>
 
 <style>
-    .dialog {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        min-height: 100px;
-        margin-bottom: 1rem;
+    .messages { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+
+    .message-wrapper { display: flex; width: 100%; }
+    .me { justify-content: flex-end; }
+    .them { justify-content: flex-start; }
+
+    .bubble {
+        max-width: 70%;
+        padding: 8px 12px;
+        border-radius: 12px;
+        font-size: 0.9rem;
     }
-    .message {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
+
+    .me .bubble { background: #0088cc; color: white; border-bottom-right-radius: 2px; }
+    .them .bubble { background: #eee; color: #333; border-bottom-left-radius: 2px; }
+
+    .sender { display: block; font-size: 0.7rem; opacity: 0.7; margin-bottom: 2px; }
 </style>

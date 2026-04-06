@@ -1,14 +1,14 @@
 type SocketState = {
   status: string;
   socket: WebSocket | null;
-  chat: { createdAt: Date; message: string }[];
+  messages: { sender: string; createdAt: Date; message: string }[];
   tabName: string;
 };
 
 export const socketState: SocketState = $state({
   status: 'disconnected',
   socket: null,
-  chat: [],
+  messages: [],
   tabName: `User-${Math.floor(Math.random() * 100)}`,
 });
 
@@ -23,9 +23,9 @@ export function initSocket() {
   ws.onmessage = (event) => {
     try {
       const data = JSON.parse(event.data);
-      socketState.chat.push(data);
+      socketState.messages.push(data);
     } catch {
-      socketState.chat.push(event.data);
+      socketState.messages.push(event.data);
     }
   };
 
